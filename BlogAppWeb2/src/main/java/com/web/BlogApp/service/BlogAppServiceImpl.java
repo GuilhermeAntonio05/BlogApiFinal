@@ -52,7 +52,12 @@ public class BlogAppServiceImpl implements BlogAppService {
 		blogapprepository.delete(post);
 		
 	}
-	
+
+	@Override
+	public void deleteById(UUID post) {
+		blogapprepository.deleteById(post);
+	}
+
 	//  TRATA COMENTÁRIOS DOS POSTS
 		
 //	@Override

@@ -66,10 +66,10 @@ public class BlogAppController {
 	}
 
 	//fução não funcional
-	@DeleteMapping(value = "/deletar/{id}")
+	@GetMapping(value = "/deletar/{id}")
 	public String deletePost(@PathVariable UUID id) {
 	System.out.println(id);
-		//blogappservice.delete(post);
+		blogappservice.deleteById(id);
 		return "redirect:/posts";
 	}
 }

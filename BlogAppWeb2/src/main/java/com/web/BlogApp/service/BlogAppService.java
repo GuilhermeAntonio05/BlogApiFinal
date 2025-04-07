@@ -13,7 +13,8 @@ public interface BlogAppService {
 	Optional<PostModel> findById(UUID id);
 	PostModel save(PostModel post);
 	void delete(PostModel post);
-	
+	void deleteById(UUID postId);
+
 	//TRATA COMENTÁRIOS DOS POSTS
 //	List<PostComentarioModel> findAllComentarios();
 //	Optional<PostComentarioModel> findIdComentario(UUID id);
