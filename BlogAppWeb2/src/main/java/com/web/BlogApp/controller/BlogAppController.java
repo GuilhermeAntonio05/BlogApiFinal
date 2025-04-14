@@ -127,4 +127,30 @@ public class BlogAppController {
 		blogappservice.save(post);
 		return "redirect:/posts";
 	}
+
+	@RequestMapping(value = "/posts/editComment/{id}", method = RequestMethod.GET)
+	public ModelAndView getCommentEditDetails(@PathVariable("id") UUID id) {
+		ModelAndView mv = new ModelAndView("commentEdit");
+		Optional<PostCommentModel> blogappModelOptional = blogappservice.findByIdComments(id);
+		PostCommentModel comments = blogappModelOptional.get();
+		mv.addObject("comments", comments);
+		return mv;
+	}
+
+	@RequestMapping(value = "/posts/editComment/{id}", method = RequestMethod.POST)
+	public String editPostComment(@PathVariable(value = "id") UUID id, @Valid PostCommentModel post, BindingResult result,
+			RedirectAttributes attributes) {
+		if (result.hasErrors()) {
+			attributes.addFlashAttribute("mensagem", "Verifique se os campos obrigatórios foram preenchidos");
+			return "redirect:/posts/edit/{id}";
+		}
+		
+		Optional<PostCommentModel> postmodel = blogappservice.findByIdComments(id);
+		PostCommentModel postCommentModel =	postmodel.get();
+		postCommentModel.setData(LocalDate.now());
+		postCommentModel.setComentario(post.getComentario());
+		blogappservice.saveComments(postCommentModel);
+		return "redirect:/posts";
+	}
+
 }
