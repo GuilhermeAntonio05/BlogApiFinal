@@ -100,6 +100,12 @@ public class BlogAppController {
 		return "redirect:/posts";
 	}
 
+	@GetMapping(value = "/deletarComment/{id}")
+	public String deletePostComment(@PathVariable UUID id) {
+		blogappservice.deleteByIdComments(id);
+		return "redirect:/posts";
+	}
+	
 	// função de edit
 	@RequestMapping(value = "/posts/edit/{id}", method = RequestMethod.GET)
 	public ModelAndView getPostEditDetails(@PathVariable("id") UUID id) {
