@@ -40,11 +40,8 @@ public class PostModel {
 	//@Column(name = "texto", columnDefinition="text")
 	private String texto;
 	
-	@OneToMany
-//	private List<PostComentarioModel> postComentarioModel;
-	
-	
-	
+	@OneToMany(mappedBy = "postModel")
+	private List<PostCommentModel> postCommentModels;
 
 	public UUID getId() {
 		return id;
@@ -85,16 +82,12 @@ public class PostModel {
 	public void setTexto(String texto) {
 		this.texto = texto;
 	}
-//
-//	public List<PostComentarioModel> getPostComentarioModel() {
-//		return postComentarioModel;
-//	}
-//
-//	public void setPostComentarioModel(List<PostComentarioModel> postComentarioModel) {
-//		this.postComentarioModel = postComentarioModel;
-//	}
-	
-	
-	
 
+	public List<PostCommentModel> getPostCommentModels() {
+		return postCommentModels;
+	}
+
+	public void setPostCommentModels(List<PostCommentModel> postCommentModels) {
+		this.postCommentModels = postCommentModels;
+	}
 }

@@ -7,10 +7,12 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-//import com.web.BlogApp.model.PostComentarioModel;
+import com.web.BlogApp.model.PostCommentModel;
+//import com.web.BlogApp.model.postCommentRepository;
 import com.web.BlogApp.model.PostModel;
 import com.web.BlogApp.repository.BlogAppRepository;
 //import com.web.BlogApp.repository.PostComentarioRepository;
+import com.web.BlogApp.repository.PostCommentRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -19,20 +21,20 @@ import jakarta.transaction.Transactional;
 //diminuir o acoplamento
 
 @Service
-public class BlogAppServiceImpl implements BlogAppService {
-	
+public class BlogAppServiceImpl implements BlogAppService, PostCommentService {
+
 	@Autowired
-	BlogAppRepository blogapprepository;
-	
-//	@Autowired
-//	PostComentarioRepository postComentarioRepository;
+	private BlogAppRepository blogapprepository;
+
+	@Autowired
+	private PostCommentRepository postCommentRepository;
 
 	@Override
 	public List<PostModel> findAll() {
 		// TODO Auto-generated method stub
 		return blogapprepository.findAll();
 	}
-	
+
 	@Override
 	public Optional<PostModel> findById(UUID id) {
 		// TODO Auto-generated method stub
@@ -50,7 +52,7 @@ public class BlogAppServiceImpl implements BlogAppService {
 	public void delete(PostModel post) {
 		// TODO Auto-generated method stub
 		blogapprepository.delete(post);
-		
+
 	}
 
 	@Override
@@ -58,36 +60,31 @@ public class BlogAppServiceImpl implements BlogAppService {
 		blogapprepository.deleteById(post);
 	}
 
-	//  TRATA COMENTÁRIOS DOS POSTS
-		
-//	@Override
-//	public Optional<PostComentarioModel> findIdComentario(UUID id) {
-//		// TODO Auto-generated method stub
-//		return postComentarioRepository.findById(id);
-//	}
-//
-//	@Override
-//	public void deleteComentarios(Iterable<PostComentarioModel> postComentarioModel) {
-//		// TODO Auto-generated method stub
-//		postComentarioRepository.deleteAll(postComentarioModel);
-//	}
-//
-//	@Override
-//	public Iterable<PostComentarioModel> findComentariosByPost(PostModel PostModel) { // busca os comentarios de um post
-//		// TODO Auto-generated method stub
-//		return postComentarioRepository.findByPostModel(PostModel);
-//	}
-//
-//	@Override
-//	public List<PostComentarioModel> findAllComentarios() {
-//		// TODO Auto-generated method stub
-//		 return postComentarioRepository.findAll();	
-//	}
-//
-//	@Override
-//	public PostComentarioModel saveComentario(PostComentarioModel postComentarioModel) {
-//		// TODO Auto-generated method stub
-//		return postComentarioRepository.save(postComentarioModel);
-//	}
+	// TRATA COMENTÁRIOS DOS POSTS
+
+	@Override
+	public List<PostCommentModel> findAllComments() {
+		return postCommentRepository.findAll();
+	}
+
+	@Override
+	public Optional<PostCommentModel> findByIdComments(UUID id) {
+		return postCommentRepository.findById(id);
+	}
+
+	@Override
+	public PostCommentModel saveComments(PostCommentModel post) {
+		return postCommentRepository.save(post);
+	}
+
+	@Override
+	public void deleteComments(PostCommentModel post) {
+		postCommentRepository.delete(post);
+	}
+
+	@Override
+	public void deleteByIdComments(UUID postId) {
+		postCommentRepository.deleteById(postId);
+	}
 
 }
