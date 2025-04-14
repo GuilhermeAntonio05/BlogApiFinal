@@ -51,7 +51,7 @@ public class BlogAppController {
 		PostModel posts = blogappModelOptional.get();
 		List<PostCommentModel> comments = posts.getPostCommentModels();
 		mv.addObject("posts", posts);
-		mv.addObject("comments",comments);
+		mv.addObject("comments", comments);
 		return mv;
 	}
 
@@ -70,29 +70,30 @@ public class BlogAppController {
 		blogappservice.save(post);
 		return "redirect:/posts";
 	}
-	
+
 	@GetMapping(value = "/newpostcomment/{id}")
 	public String getPostComment() {
 		return "newComment";
 	}
-	
+
 	@PostMapping(value = "/newpostcomment/{id}")
-	public String savePostComment(@PathVariable("id") UUID id, @ModelAttribute PostCommentModel post, BindingResult result, RedirectAttributes attributes) {
+	public String savePostComment(@PathVariable("id") UUID id, @ModelAttribute PostCommentModel post,
+			BindingResult result, RedirectAttributes attributes) {
 
 		System.out.println(post.getComentario());
-		
+
 		if (result.hasErrors()) {
 			attributes.addFlashAttribute("mensagem", "Verifique se os campos obrigatórios foram preenchidos");
 			return "redirect:/newpostcomment";
 		}
-		
+
 		Optional<PostModel> optionalPostModel = blogappservice.findById(id);
 		post.setPostModel(optionalPostModel.get());
 		post.setData(LocalDate.now());
 		blogappservice.saveComments(post);
 		return "redirect:/posts";
 	}
-	
+
 	// função de delete/${}
 	@GetMapping(value = "/deletar/{id}")
 	public String deletePost(@PathVariable UUID id) {
@@ -105,7 +106,7 @@ public class BlogAppController {
 		blogappservice.deleteByIdComments(id);
 		return "redirect:/posts";
 	}
-	
+
 	// função de edit
 	@RequestMapping(value = "/posts/edit/{id}", method = RequestMethod.GET)
 	public ModelAndView getPostEditDetails(@PathVariable("id") UUID id) {
@@ -138,15 +139,15 @@ public class BlogAppController {
 	}
 
 	@RequestMapping(value = "/posts/editComment/{id}", method = RequestMethod.POST)
-	public String editPostComment(@PathVariable(value = "id") UUID id, @Valid PostCommentModel post, BindingResult result,
-			RedirectAttributes attributes) {
+	public String editPostComment(@PathVariable(value = "id") UUID id, @Valid PostCommentModel post,
+			BindingResult result, RedirectAttributes attributes) {
 		if (result.hasErrors()) {
 			attributes.addFlashAttribute("mensagem", "Verifique se os campos obrigatórios foram preenchidos");
 			return "redirect:/posts/edit/{id}";
 		}
-		
+
 		Optional<PostCommentModel> postmodel = blogappservice.findByIdComments(id);
-		PostCommentModel postCommentModel =	postmodel.get();
+		PostCommentModel postCommentModel = postmodel.get();
 		postCommentModel.setData(LocalDate.now());
 		postCommentModel.setComentario(post.getComentario());
 		blogappservice.saveComments(postCommentModel);
